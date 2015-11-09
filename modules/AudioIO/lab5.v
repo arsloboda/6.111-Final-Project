@@ -593,20 +593,25 @@ module lab5   (beep, audio_reset_b, ac97_sdata_out, ac97_sdata_in, ac97_synch,
      old_vup <= vup;
      old_vdown <= vdown;
    end
-	reg [17:0] for_ac97_l;
-	reg [17:0] for_ac97_r;
+	wire [17:0] for_ac97_l;
+	wire [17:0] for_ac97_r;
+	reg [7:0] controls =0;
+	wire [55:0] freq_data;
    // AC97 driver
    lab5audio a(clock_27mhz, reset, volume, from_ac97_data_l, for_ac97_l,from_ac97_data_r,for_ac97_r, ready,
 	       audio_reset_b, ac97_sdata_out, ac97_sdata_in,
 	       ac97_synch, ac97_bit_clock);
 	
 	//Assign output data
-	always @(posedge clock_27mhz) begin
-		if (ready) begin
-			for_ac97_l<=from_ac97_data_l;
-			for_ac97_r<=from_ac97_data_r;
-		end
-	end
+	ProcessMod process(.clock(clock_27mhz),.reset(reset),.ready(ready),
+			 .l_audio_in(from_ac97_data_l),.r_audio_in(from_ac97_data_r),
+			 .f_controls(8'b0000_0000),.t_controls(8'b0000_0000),
+			 .l_audio_out(for_ac97_l),.r_audio_out(for_ac97_r),
+			 .freq1(freq_data[7:0]),.freq2(freq_data[15:8]),
+			 .freq3(freq_data[23:16]),.freq4(freq_data[31:24]),
+			 .freq5(freq_data[39:32]),.freq6(freq_data[47:40]),
+			 .freq7(freq_data[55:48]));
+
 	// show volume during playback.
    // led is active low
    assign led = ~{3'b000, volume};

@@ -26,35 +26,35 @@ module ProcessMod(
     input reset,
     input [7:0] f_controls,
 	 input [7:0] t_controls,
-    output reg [17:0] l_audio_out=0,
-	 output reg [17:0] r_audio_out=0,
-    output reg [7:0] freq1=0,
-    output reg [7:0] freq2=0,
-    output reg [7:0] freq3=0,
-    output reg [7:0] freq4=0,
-    output reg [7:0] freq5=0,
-    output reg [7:0] freq6=0,
-    output reg [7:0] freq7=0
+    output [17:0] l_audio_out,
+	 output [17:0] r_audio_out,
+    output [7:0] freq1,
+    output [7:0] freq2,
+    output [7:0] freq3,
+    output [7:0] freq4,
+    output [7:0] freq5,
+    output [7:0] freq6,
+    output [7:0] freq7
     );
 	//Left and right audio out of frequency modules
-	wire l_f_aud_out[7:0];
-	wire r_f_aud_out[7:0];
+	wire [17:0] l_f_aud_out;
+	wire [17:0] r_f_aud_out;
 	//Left frequency data out for all 7 bands
-	wire l_f_f1_out[7:0];
-	wire l_f_f2_out[7:0];
-	wire l_f_f3_out[7:0];
-	wire l_f_f4_out[7:0];
-	wire l_f_f5_out[7:0];
-	wire l_f_f6_out[7:0];
-	wire l_f_f7_out[7:0];
+	wire [7:0] l_f_f1_out;
+	wire [7:0] l_f_f2_out;
+	wire [7:0] l_f_f3_out;
+	wire [7:0] l_f_f4_out;
+	wire [7:0] l_f_f5_out;
+	wire [7:0] l_f_f6_out;
+	wire [7:0] l_f_f7_out;
 	//Right frequency data out for all 7 bands
-	wire r_f_f1_out[7:0];
-	wire r_f_f2_out[7:0];
-	wire r_f_f3_out[7:0];
-	wire r_f_f4_out[7:0];
-	wire r_f_f5_out[7:0];
-	wire r_f_f6_out[7:0];
-	wire r_f_f7_out[7:0];
+	wire [7:0] r_f_f1_out;
+	wire [7:0] r_f_f2_out;
+	wire [7:0] r_f_f3_out;
+	wire [7:0] r_f_f4_out;
+	wire [7:0] r_f_f5_out;
+	wire [7:0] r_f_f6_out;
+	wire [7:0] r_f_f7_out;
 	//Instantiate frequency modules for left and right channels
 	FreqMod FreqL(.audio_in(l_audio_in),.ready(ready),.clock(clock),
 						.reset(reset),.controls(f_controls),.audio_out(l_f_aud_out),
