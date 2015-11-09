@@ -22,10 +22,10 @@ module HighLevelFSM(
     input clock,
     input reset,
     input [14:0] controls,
-    output [7:0] f_controls,
-    output [7:0] t_controls,
-    output [7:0] m_controls,
-    output [7:0] v_controls
+    output reg [7:0] f_controls =0,
+    output reg [7:0] t_controls =0,
+    output reg [7:0] m_controls =0,
+    output reg [7:0] v_controls =0
     );
 	//TBD :P, based off state, change which control signals are affected by inputs
 

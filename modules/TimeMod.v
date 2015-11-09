@@ -24,7 +24,7 @@ module TimeMod(
     input clock,
     input reset,
     input [7:0] controls,
-    output [17:0] audio_out
+    output reg [17:0] audio_out
     );
 	always@(posedge clock) begin
 		if(reset) begin

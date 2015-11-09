@@ -26,15 +26,15 @@ module ProcessMod(
     input reset,
     input [7:0] f_controls,
 	 input [7:0] t_controls,
-    output [17:0] l_audio_out =0,
-	 output [17:0] r_audio_out =0,
-    output [7:0] freq1=0,
-    output [7:0] freq2=0,
-    output [7:0] freq3=0,
-    output [7:0] freq4=0,
-    output [7:0] freq5=0,
-    output [7:0] freq6=0,
-    output [7:0] freq7=0
+    output reg [17:0] l_audio_out=0,
+	 output reg [17:0] r_audio_out=0,
+    output reg [7:0] freq1=0,
+    output reg [7:0] freq2=0,
+    output reg [7:0] freq3=0,
+    output reg [7:0] freq4=0,
+    output reg [7:0] freq5=0,
+    output reg [7:0] freq6=0,
+    output reg [7:0] freq7=0
     );
 	//Left and right audio out of frequency modules
 	wire l_f_aud_out[7:0];
