@@ -24,14 +24,14 @@ module FreqMod(
     input clock,
     input reset,
     input [7:0] controls,
-    output reg [17:0] audio_out=0,
-    output reg [7:0] freq1 =0,
-    output reg [7:0] freq2 =0,
-    output reg [7:0] freq3 =0,
-    output reg [7:0] freq4 =0,
-    output reg [7:0] freq5 =0,
-    output reg [7:0] freq6 =0,
-    output reg [7:0] freq7 =0
+    output reg [17:0] audio_out,
+    output reg [7:0] freq1,
+    output reg [7:0] freq2,
+    output reg [7:0] freq3,
+    output reg [7:0] freq4,
+    output reg [7:0] freq5,
+    output reg [7:0] freq6,
+    output reg [7:0] freq7
     );
 	
 	always@(posedge clock) begin

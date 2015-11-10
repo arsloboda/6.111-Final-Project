@@ -39,7 +39,7 @@ endmodule
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-module lab5audio (
+module audio (
   input wire clock_27mhz,
   input wire reset,
   input wire [4:0] volume,
@@ -294,7 +294,7 @@ endmodule // ac97commands
 ////
 /////////////////////////////////////////////////////////////////////////////////
 
-module lab5   (beep, audio_reset_b, ac97_sdata_out, ac97_sdata_in, ac97_synch,
+module Labkit_M   (beep, audio_reset_b, ac97_sdata_out, ac97_sdata_in, ac97_synch,
 	       ac97_bit_clock,
 	       
 	       vga_out_red, vga_out_green, vga_out_blue, vga_out_sync_b,
@@ -598,7 +598,7 @@ module lab5   (beep, audio_reset_b, ac97_sdata_out, ac97_sdata_in, ac97_synch,
 	reg [7:0] controls =0;
 	wire [55:0] freq_data;
    // AC97 driver
-   lab5audio a(clock_27mhz, reset, volume, from_ac97_data_l, for_ac97_l,from_ac97_data_r,for_ac97_r, ready,
+   audio a(clock_27mhz, reset, volume, from_ac97_data_l, for_ac97_l,from_ac97_data_r,for_ac97_r, ready,
 	       audio_reset_b, ac97_sdata_out, ac97_sdata_in,
 	       ac97_synch, ac97_bit_clock);
 	
