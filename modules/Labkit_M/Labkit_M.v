@@ -555,18 +555,6 @@ module Labkit_M   (beep, audio_reset_b, ac97_sdata_out, ac97_sdata_in, ac97_sync
    wire reset;
    SRL16 #(.INIT(16'hFFFF)) reset_sr(.D(1'b0), .CLK(clock_27mhz), .Q(reset),
                                      .A0(1'b1), .A1(1'b1), .A2(1'b1), .A3(1'b1));
-	
-
-
-
-
-
-
-
-
-
-
-
 
 	////////////////////////////////////////////////////////////////////////////
 	//
@@ -579,11 +567,15 @@ module Labkit_M   (beep, audio_reset_b, ac97_sdata_out, ac97_sdata_in, ac97_sync
    wire ready;
 	
    // allow user to adjust volume
-   wire vup,vdown;
+   wire vup,vdown,switch0,enter,reset2;
    reg old_vup,old_vdown;
    debounce bup(.reset(reset),.clock(clock_27mhz),.noisy(~button_up),.clean(vup));
    debounce bdown(.reset(reset),.clock(clock_27mhz),.noisy(~button_down),.clean(vdown));
-   reg [4:0] volume;
+   debounce sw0(.reset(reset),.clock(clock_27mhz),.noisy(switch[0]),.clean(switch0));
+	debounce bent(.reset(reset),.clock(clock_27mhz),.noisy(~button_enter),.clean(enter));
+	assign reset2 = reset|enter;
+
+	reg [4:0] volume;
    always @ (posedge clock_27mhz) begin
      if (reset) volume <= 5'd24;
      else begin
@@ -595,7 +587,7 @@ module Labkit_M   (beep, audio_reset_b, ac97_sdata_out, ac97_sdata_in, ac97_sync
    end
 	wire [17:0] for_ac97_l;
 	wire [17:0] for_ac97_r;
-	reg [7:0] controls =0;
+	reg [7:0] controls =8'b0000_0000;
 	wire [55:0] freq_data;
    // AC97 driver
    audio a(clock_27mhz, reset, volume, from_ac97_data_l, for_ac97_l,from_ac97_data_r,for_ac97_r, ready,
@@ -605,7 +597,7 @@ module Labkit_M   (beep, audio_reset_b, ac97_sdata_out, ac97_sdata_in, ac97_sync
 	//Assign output data
 	ProcessMod process(.clock(clock_27mhz),.reset(reset),.ready(ready),
 			 .l_audio_in(from_ac97_data_l),.r_audio_in(from_ac97_data_r),
-			 .f_controls(8'b0000_0000),.t_controls(8'b0000_0000),
+			 .f_controls(8'b0000_0000),.t_controls({7'b000_0000,switch0}),
 			 .l_audio_out(for_ac97_l),.r_audio_out(for_ac97_r),
 			 .freq1(freq_data[7:0]),.freq2(freq_data[15:8]),
 			 .freq3(freq_data[23:16]),.freq4(freq_data[31:24]),
@@ -614,7 +606,7 @@ module Labkit_M   (beep, audio_reset_b, ac97_sdata_out, ac97_sdata_in, ac97_sync
 
 	// show volume during playback.
    // led is active low
-   assign led = ~{3'b000, volume};
+   assign led = ~{2'b00,switch0, volume};
 
    // output useful things to the logic analyzer connectors
    assign analyzer1_clock = ac97_bit_clock;
